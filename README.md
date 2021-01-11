@@ -41,6 +41,6 @@
 - 1. DynamoDBのマネジメントコンソールからTable AをCSVエクスポート
 - 2. マネジメントコンソールからTable Aを削除してTableBを作成。Cloudformationを使用している場合は既存Cloudformation stackのTable Aの定義部分を削除し、Table Bの定義を追加してDeploy
 - 3. マネジメントコンソールのCloudformationの「スタックの作成」から「テンプレートファイルのアップロード」を選択
-- 4. 当リポジトリの`csvToDynamo.template`をuploadし、「新たに作成するCSVアップロード用のS3 Bucket名」「DynamoDB Table Bの名前」「1でエクスポートしたCSVファイル名」を入力し、S3 BucketとそのBucketにuploadされたCSVをDynamoDBにInsertするLambdaを作成
+- 4. 当リポジトリの`cloudformation/csvToDynamo.template`をuploadし、「新たに作成するCSVアップロード用のS3 Bucket名」「DynamoDB Table Bの名前」「1でエクスポートしたCSVファイル名」を入力し、S3 BucketとそのBucketにuploadされたCSVをDynamoDBにInsertするLambdaを作成
 - 5. S3 Bucketに1. のcsvファイルをupload
 - 6. DynamoDBのTable Bの中身を確認
