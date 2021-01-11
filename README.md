@@ -34,8 +34,8 @@ LSIはテーブル作成時にのみ作成される。
 
 - 1. DynamoDBのマネジメントコンソールから旧Tableの中身をCSVエクスポート
 - 2. マネジメントコンソールから旧Tableを削除して新Tableを作成
-    - 2-1. Cloudformationを使用している場合は既存Cloudformation Stackの旧Tableの定義部分を削除してDeploy
-    - 2-2. 新Tableの定義を追加してDeploy
+    - Cloudformationを使用している場合は既存Cloudformation Stackの旧Tableの定義部分を削除してDeploy
+    - 新Tableの定義を追加してDeploy
 - 3. マネジメントコンソールのCloudformationの「スタックの作成」から「テンプレートファイルのアップロード」を選択
 - 4. 当リポジトリの`cloudformation/csvToDynamo.template`をuploadし、「新たに作成するCSVアップロード用のS3 Bucket名」「DynamoDB 新Tableの名前」「1でエクスポートしたCSVファイル名」を入力し、S3 BucketとそのBucketにuploadされたCSVをDynamoDBにInsertするLambdaを作成
 - 5. S3 Bucketに1. のcsvファイルをupload
