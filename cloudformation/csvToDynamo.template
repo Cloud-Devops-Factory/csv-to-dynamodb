@@ -5,17 +5,17 @@
     },
     "Parameters" : {
         "BucketName": {
-            "Description": "CSVファイルをuploadするS3 bucket名(未作成である必要がある)",
+            "Description": "New S3 bucket name to upload old table data csv file.",
             "Type": "String",
             "ConstraintDescription": "must be a valid bucket name."
         },
         "FileName": {
-            "Description": "S3にuploadするCSVファイル名",
+            "Description": "Old table data csv file name which will be uploaded to s3.",
             "Type": "String",
             "ConstraintDescription": "Valid S3 file name."
         },
         "DynamoDBTableName": {
-            "Description": "CSVファイルのレコードをInsertする先のDynamoDBテーブル(作成済みである必要がある)",
+            "Description": "Created new dynamoDB table name.",
             "Type": "String",
             "ConstraintDescription": "must be a valid dynamoDB name."
         }
