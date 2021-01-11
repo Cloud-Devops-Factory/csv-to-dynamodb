@@ -21,12 +21,14 @@ LSIはテーブル作成時にのみ作成される。
 
 どうしても追加/削除したい場合はテーブルを作り直すことになる。
 
+参照: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LSI.html#LSI.Creating (`Local secondary indexes on a table are created when the table is created.`)
+
 ## Partition KeyとSort Keyの変更
 既存テーブルに対しての変更は不可能
 
 どうしても変更したい場合は、テーブルを作り直すことになる。
 
-### テーブルの作り直しに伴うデータ移行
+## テーブルの作り直しに伴うデータ移行
 既存テーブルに対するLSIの追加/削除、Partition KeyとSort Keyの変更を行う際にはテーブルを作り直す必要がある。
 万が一、運用中のテーブルに対して作り直しを行う必要が発生した場合は以下の手順で行う。
 
