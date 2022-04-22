@@ -1,42 +1,42 @@
-# DynamoDB Schema Migration Tool
+# Outil de migration de schéma DynamoDB
 
-## 大前提
-- DynamoDBはスキーマレスなNoSQL DBであるため、通常の属性の追加はテーブル定義を変更することなく自由に可能
-- ただし、テーブル定義に関わる部分として
-   - 1. Partition Key = Hash Key
-   - 2. Sort Key = Range Key
-   - 3. LSI
-   - 4. GSI
-- の4つが存在する
+## Prémisse majeure
+--Étant donné que DynamoDB est une base de données NoSQL sans schéma, vous pouvez librement ajouter des attributs normaux sans modifier la définition de la table.
+--Cependant, en tant que partie liée à la définition de la table
+   ―― 1. Clé de partition = Clé de hachage
+   ―― 2. Clé de tri = Clé de plage
+   ―― 3. LSI
+   ―― 4. ISG
+-Ils sont quatre
 
-既存のテーブルに対して上記の4項目を変更することをSchema Migrationと呼ぶこととする。
+La modification des quatre éléments ci-dessus pour une table existante s'appelle la migration de schéma.
 
-## GSIの追加/削除
-既存テーブルに対しても自由に追加/削除が可能
+## Ajouter / Supprimer GSI
+Vous pouvez librement ajouter/supprimer des tables existantes
 
-## LSIの追加/削除
-既存テーブルに対しての追加/削除は不可能
+## Ajouter/supprimer LSI
+Ne peut pas être ajouté/supprimé à une table existante
 
-LSIはテーブル作成時にのみ作成される。
+LSI est créé uniquement lorsque la table est créée.
 
-どうしても追加/削除したい場合はテーブルを作り直すことになる。
+Si vous voulez vraiment ajouter/supprimer, vous devrez recréer le tableau.
 
-参照: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LSI.html#LSI.Creating (`Local secondary indexes on a table are created when the table is created.`)
+Voir : https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LSI.html#LSI.Creating (`Les index secondaires locaux sur une table sont créés lors de la création de la table.`)
 
-## Partition KeyとSort Keyの変更
-既存テーブルに対しての変更は不可能
+## Modifier la clé de partition et la clé de tri
+Ne peut pas être modifié pour une table existante
 
-どうしても変更したい場合は、テーブルを作り直すことになる。
+Si vous voulez vraiment le changer, vous devrez recréer la table.
 
-## テーブルの作り直しに伴うデータ移行
-既存テーブルに対するLSIの追加/削除、Partition KeyとSort Keyの変更を行う際にはテーブルを作り直す必要がある。
-万が一、運用中のテーブルに対して作り直しを行う必要が発生した場合は以下の手順で行う。
+## Migration de données due à la recréation de la table
+Il est nécessaire de recréer la table lors de l'ajout/de la suppression de LSI à la table existante et de la modification de la clé de partition et de la clé de tri.
+Dans le cas peu probable où il deviendrait nécessaire de recréer la table en fonctionnement, suivez la procédure ci-dessous.
 
-- 1. DynamoDBのマネジメントコンソールから旧Tableの中身をCSVエクスポート
-- 2. マネジメントコンソールから旧Tableを削除して新Tableを作成
-    - Cloudformationを使用している場合は既存Cloudformation Stackの旧Tableの定義部分を削除してDeploy
-    - 新Tableの定義を追加してDeploy
-- 3. マネジメントコンソールのCloudformationの「スタックの作成」から「テンプレートファイルのアップロード」を選択
-- 4. 当リポジトリの`cloudformation/csvToDynamo.template`をuploadし、「新たに作成するCSVアップロード用のS3 Bucket名」「DynamoDB 新Tableの名前」「1でエクスポートしたCSVファイル名」を入力し、S3 BucketとそのBucketにuploadされたCSVをDynamoDBにInsertするLambdaを作成
-- 5. S3 Bucketに1. のcsvファイルをupload
-- 6. DynamoDBの新Tableの中身を確認
+―― 1. Exportez au format CSV le contenu de l'ancienne table depuis la console de gestion de DynamoDB
+―― 2. Supprimez l'ancienne table de la console de gestion et créez une nouvelle table
+    --Si vous utilisez Cloudformation, supprimez la partie définition de l'ancienne table de la pile Cloudformation existante et déployez
+    --Déployer en ajoutant une nouvelle définition de table
+--3. Sélectionnez "Télécharger le fichier de modèle" dans "Créer une pile" dans Cloudformation de la console de gestion.
+--4. Chargez `cloudformation / csvToDynamo.template` de ce référentiel, entrez" Nom du compartiment S3 pour le téléchargement CSV nouvellement créé "," Nom de la nouvelle table DynamoDB ", et" Nom du fichier CSV exporté en 1 ". Créez Lambda pour insérer S3 Bucket et CSV chargés dans ce Bucket dans DynamoDB
+--5. Chargez le fichier csv de 1. dans le compartiment S3
+―― 6. Vérifier le contenu de la nouvelle table de DynamoDB
